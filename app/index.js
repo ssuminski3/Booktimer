@@ -14,7 +14,7 @@ export default function App(){
     if (!rootNavigationState?.key) return null;
 
     if (user) {
-        console.log("User: " + user);
+        console.log("User: " + JSON.stringify(user));
         return <Redirect href={"bookslist"}/>;
     } else {
         return <Redirect href={"login"}/>;
