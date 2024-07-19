@@ -1,36 +1,14 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Text, View, ScrollView, StyleSheet } from 'react-native';
 import Book from '../ui/book';
 import { Link } from 'expo-router';
 import CustomBook from '../ui/customBook';
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from '../firebase.config';
 
 //Main color bg-orange-500, background bg-slate-200
 
-const isbns = [
 
-  {
-    isbn: "0060935464"
-  },
-  {
-    isbn: "9780385472579"
-  },
-  {
-    isbn: "0743273567"
-  },
-  {
-    isbn: "0316769487"
-  },
-  {
-    isbn: "0-061-96436-0"
-  },
-  {
-    isbn: "0-061-96436-0"
-  },
-  {
-    title: "Book of Boba Fett",
-    pages: 54
-  }
-]
 
 export function AddButton() {
   return (
@@ -43,8 +21,17 @@ export function AddButton() {
 }
 
 export default function App() {
+  const [isbns, setIsbns] = useState([])
+  useEffect(() => {
+    async function getBooks(){
+      const querySnapshot = await getDocs(collection(db, "books"));
+      const isbns = querySnapshot.docs.map(doc => doc.data());
+      setIsbns(isbns);
+    }
+    getBooks();
+  }, [])
   return (
-    <View className="bg-slate-200">
+    <View className="bg-slate-200 h-full">
       <AddButton />
       <ScrollView>
         {isbns.map((i, index) => {

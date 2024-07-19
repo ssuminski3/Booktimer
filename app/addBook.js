@@ -1,6 +1,9 @@
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import { useEffect, useState } from 'react';
 import { Button, StyleSheet, Text, TouchableOpacity, View, Modal, Image, TextInput } from 'react-native';
+import { collection, addDoc } from 'firebase/firestore';
+import { db } from '../firebase.config'
+import { router } from 'expo-router';
 
 export default function App() {
     const [permission, requestPermission] = useCameraPermissions();
@@ -23,9 +26,14 @@ export default function App() {
                 console.log(code)
                 console.log(`http://openlibrary.org/api/books?bibkeys=ISBN:${code}&jscmd=details&format=json`)
                 const d = await response.json()
-                setTitle(t => d["ISBN:" + code].details.title)
+                if (d && d["ISBN:" + code] && d["ISBN:" + code].details) {
+                    setTitle(t => d["ISBN:" + code].details.title)
+                } else {
+                    alert("There is no such book")
+                }
             }
             catch(e) {
+                alert("There is no such book")
                 console.log(e)
             }
             finally {
@@ -46,6 +54,33 @@ export default function App() {
             setScanned(false)
             setEnterTitle(true)
         }
+    }
+    async function addBookToDB(){
+        if(pages == 0){
+            try{
+                const docRef = await addDoc(collection(db, "books"), {
+                    isbn: isbn
+                })
+                console.log("Added ", docRef, enterTitle)
+            }
+            catch(e){
+                console.error(e)
+            }
+        }
+        else{
+            try{
+                const docRef = await addDoc(collection(db, "books"), {
+                    title: title,
+                    pages: pages
+                })
+                console.log("Added ", docRef, enterTitle)
+            }
+            catch(e){
+                console.error(e)
+            }
+        }
+        setScanned(false)
+        router.replace("bookslist")
     }
     if (!permission) {
         // Camera permissions are still loading.
@@ -70,7 +105,7 @@ export default function App() {
                     <Text className="text-center m-3 text-xl">{title}</Text>
                     <Text className="text-center m-3 text-base">Is it correct book?</Text>
                     <View style={{flexDirection: 'row'}} className="justify-center">
-                        <TouchableOpacity className="bg-orange-500 m-1 p-1 w-1/3 rounded-xl">
+                        <TouchableOpacity className="bg-orange-500 m-1 p-1 w-1/3 rounded-xl" onPress={addBookToDB}>
                             <Text className="text-center text-white">Yes</Text>
                         </TouchableOpacity>
                         <TouchableOpacity className="bg-orange-500 m-1 p-1 w-1/3 rounded-xl" onPress={alertEnterISBN}>
@@ -108,7 +143,7 @@ export default function App() {
                         <TouchableOpacity className="bg-orange-500 p-1 w-full rounded-lg" onPress={() => {
                             setEnterTitle(false)
                             setNext(false)
-                            setScanned(true)
+                            addBookToDB()
                         }}>
                             <Text className="text-center text-white">Enter book</Text>
                         </TouchableOpacity>
@@ -116,7 +151,7 @@ export default function App() {
             </Modal>
             <CameraView
                 style={styles.camera}
-                barcodeScannerSettings={{ barcodeTypes: ['codabar', 'qr', 'code128', 'code39', 'ean13', 'ean8', 'pdf417', 'upc_e', 'datamatrix', 'code93', 'itf14', 'upc_a'] }}
+                barcodeScannerSettings={{ barcodeTypes: ['codabar', 'code128', 'code39', 'ean13', 'ean8', 'pdf417', 'upc_e', 'datamatrix', 'code93', 'itf14', 'upc_a'] }}
                 onBarcodeScanned={(e) => { scannedAction(e.data) }}>
                     <View style={{flexDirection: 'row'}} className="flex-1 justify-center items-end mb-10">
                         <TouchableOpacity className="bg-orange-500 m-1 p-2 w-1/3 rounded-xl" onPress={() => setEnterIsbn(true)}>
