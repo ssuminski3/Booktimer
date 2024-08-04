@@ -23,10 +23,14 @@ export default function Book(props){
         }
         getData()
     }, [])
+    const redirect = () => {
+        console.log("bookRead")
+        router.replace("./bookRead")
+    }
     if(loading)
         return <Text>loading...</Text>
     return(
-        <View className="bg-slate-100 w-2/5 h-full p-2 m-5 shadow-2xl">
+        <View className="bg-slate-100 w-2/5 h-full p-2 m-5 shadow-2xl" onTouchEnd={redirect}>
             <Image source={{ uri: "https://covers.openlibrary.org/b/isbn/"+isbn+"-L.jpg"}} resizeMode="contain" className="w-full h-3/5"/>
             <Text className="m-2">{dane.title}</Text>
         </View>

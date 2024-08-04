@@ -1,9 +1,15 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./app/index.js", "./ui/book.js", "./app/login.js", "./app/bookslist.js", "./app/addBook.js", "./ui/customBook.js"],
+  content: [
+    "./app/**/*.js",
+    "./ui/**/*.js",
+  ],
   theme: {
-    extend: {},
+    extend: {
+      // Add any custom theme extensions here
+    },
   },
-  plugins: [],
+  plugins: [
+    // Add any plugins here
+  ],
 }
-
