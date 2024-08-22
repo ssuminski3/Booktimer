@@ -1,5 +1,5 @@
 import { CameraView, useCameraPermissions } from 'expo-camera';
-import { useEffect, useState } from 'react';
+import { memo, useState } from 'react';
 import { Button, StyleSheet, Text, TouchableOpacity, View, Modal, Image, TextInput } from 'react-native';
 import { collection, addDoc } from 'firebase/firestore';
 import { db } from '../firebase.config'
@@ -15,7 +15,7 @@ export default function App() {
     const [enterTitle, setEnterTitle] = useState(false)
     const [next, setNext] = useState(false)
     const [pages, setPages] = useState(0)
-    
+    const [image, setImage] = useState()
 
     async function scannedAction(code) {
         if (!scanned && code != "") {
@@ -26,15 +26,25 @@ export default function App() {
                 console.log(code)
                 console.log(`http://openlibrary.org/api/books?bibkeys=ISBN:${code}&jscmd=details&format=json`)
                 const d = await response.json()
-                if (d && d["ISBN:" + code] && d["ISBN:" + code].details) {
-                    setTitle(t => d["ISBN:" + code].details.title)
-                } else {
-                    alert("There is no such book")
-                }
+                setTitle(d["ISBN:" + code].details.title)
+                setImage(d["ISBN:" + code].thumbnail_url.replace("S", "L"))
+                 
             }
             catch(e) {
-                alert("There is no such book")
                 console.log(e)
+                try {
+                    console.log("Using google API")
+                    const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=isbn:${code}`)
+                    const d = await response.json()
+                    console.log(d.items)
+                    setTitle(d.items[0].volumeInfo.title+" "+(d.items[0].volumeInfo.subtitle ? d.items[0].volumeInfo.subtitle: ""))
+                    setImage(d.items[0].volumeInfo.imageLinks.thumbnail)
+                    
+                }
+                catch(e){
+                    alert("There is no such book")
+                    console.log(e)
+                }
             }
             finally {
                 setLoading(false)
@@ -101,7 +111,7 @@ export default function App() {
                 onRequestClose={() => setScanned(false)}
             >
                 <View className="bg-slate-100 w-4/5 h-5/6 p-2 m-auto shadow-2xl justify-center">
-                    <Image source={{ uri: "https://covers.openlibrary.org/b/isbn/" + isbn + "-L.jpg" }} resizeMode="contain" className="w-full h-3/5" />
+                    <Image source={{ uri: image }} resizeMode="contain" className="w-full h-3/5" />
                     <Text className="text-center m-3 text-xl">{title}</Text>
                     <Text className="text-center m-3 text-base">Is it correct book?</Text>
                     <View style={{flexDirection: 'row'}} className="justify-center">
@@ -124,7 +134,8 @@ export default function App() {
                         <TextInput placeholder="Enter your's book ISBN" className="m-1" onChangeText={(e) => setIsbn(e)}/>
                         <TouchableOpacity className="bg-orange-500 p-1 w-full rounded-lg" onPress={() => {
                             setEnterIsbn(false)
-                            scannedAction(isbn)
+                            if(!enterIsbn)
+                                memo(scannedAction(isbn))
                             setNext(true)
                         }}>
                             <Text className="text-center text-white">Enter ISBN</Text>
