@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, TextInput } from 'react-native';
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer'
 import { collection, addDoc } from 'firebase/firestore';
@@ -39,7 +39,7 @@ function AddThought() {
         }
     }
     return (
-        (loading)?<Text>loading...</Text>:
+        (loading) ? <Text>loading...</Text> :
             <View className="m-10 p-3" style={{ flexDirection: 'row', borderStyle: "solid", borderColor: active ? "#f97316" : "#e0e0e0", borderWidth: active ? 2 : 1 }}>
                 <TextInput
                     ref={refThought}
@@ -73,6 +73,34 @@ export default function Countdown(props) {
 
     const [isPlaying, setIsPlaying] = useState(true)
 
+    const [isbn, useIsbn] = useState(props.isbn)
+    const [title, setTitle] = useState(props.title)
+    useEffect(() => {
+        async function getData() {
+            try {
+                const response = await fetch(`http://openlibrary.org/api/books?bibkeys=ISBN:${isbn}&jscmd=details&format=json`)
+                const d = await response.json()
+                setTitle(d["ISBN:" + isbn].details.title)
+                console.log("OK?E?H: ",d["ISBN:" + isbn].details.title)
+            }
+            catch {
+                try {
+                    //console.log("Using google API")
+                    const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}`)
+                    const d = await response.json()
+                    //console.log(d.items)
+                    setTitle(d.items[0].volumeInfo.title + " " + (d.items[0].volumeInfo.subtitle ? d.items[0].volumeInfo.subtitle : ""))
+
+                }
+                catch (e) {
+                    console.log("ERRO?R", e)
+                }
+            }
+        }
+        getData()
+    }, [])
+
+    console.log(title)
     return (
         <View className="justify-center items-center h-full bg-slate-200">
             <CountdownCircleTimer
@@ -80,11 +108,17 @@ export default function Countdown(props) {
                 duration={props.time * 60}
                 colors={['#f97316']}
                 onComplete={props.endRead}
+                initialRemainingTime={(props.remainingTime != 0) && props.remainingTime*60}
             >
                 {({ remainingTime }) => (
-                    <Text className="text-orange-500 text-2xl">
-                        {(Math.floor(remainingTime / 60) >= 10) ? Math.floor(remainingTime / 60) : "0" + Math.floor(remainingTime / 60)} : {(remainingTime % 60 >= 10) ? remainingTime % 60 : "0" + remainingTime % 60}
-                    </Text>
+                    <View>
+                        <Text className="text-orange-500 text-2xl text-center">
+                            {(Math.floor(remainingTime / 60) >= 10) ? Math.floor(remainingTime / 60) : "0" + Math.floor(remainingTime / 60)} : {(remainingTime % 60 >= 10) ? remainingTime % 60 : "0" + remainingTime % 60}
+                        </Text>
+                        <Text className="text-sm text-center">
+                            {title}
+                        </Text>
+                    </View>
                 )}
             </CountdownCircleTimer>
             <AddThought />

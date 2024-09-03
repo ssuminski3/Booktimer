@@ -38,7 +38,7 @@ export default function Book(props) {
     }, [])
     const redirect = () => {
         console.log("bookRead")
-        router.replace("./bookRead")
+        router.navigate({pathname: "./bookRead", params: {isbn: isbn}})
     }
     if (loading)
         return <Text>loading...</Text>
