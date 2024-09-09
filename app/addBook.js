@@ -2,7 +2,7 @@ import { CameraView, useCameraPermissions } from 'expo-camera';
 import { memo, useState } from 'react';
 import { Button, StyleSheet, Text, TouchableOpacity, View, Modal, Image, TextInput } from 'react-native';
 import { collection, addDoc } from 'firebase/firestore';
-import { db } from '../firebase.config'
+import { db, firebaseAuth } from '../firebase.config'
 import { router } from 'expo-router';
 
 export default function App() {
@@ -69,7 +69,8 @@ export default function App() {
         if(pages == 0){
             try{
                 const docRef = await addDoc(collection(db, "books"), {
-                    isbn: isbn
+                    isbn: isbn,
+                    userId: firebaseAuth.currentUser.uid
                 })
                 console.log("Added ", docRef, enterTitle)
             }

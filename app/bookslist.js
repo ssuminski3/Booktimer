@@ -3,8 +3,8 @@ import { Text, View, ScrollView, StyleSheet } from 'react-native';
 import Book from '../ui/book';
 import { Link } from 'expo-router';
 import CustomBook from '../ui/customBook';
-import { collection, getDocs } from 'firebase/firestore';
-import { db } from '../firebase.config';
+import { collection, getDocs, where, query } from 'firebase/firestore';
+import { db, firebaseAuth } from '../firebase.config';
 
 //Main color bg-orange-500, background bg-slate-200
 
@@ -24,7 +24,7 @@ export default function App() {
   const [isbns, setIsbns] = useState([])
   useEffect(() => {
     async function getBooks(){
-      const querySnapshot = await getDocs(collection(db, "books"));
+      const querySnapshot = await getDocs(query(collection(db, "books"), where("userId", "==", firebaseAuth.currentUser.uid)));
       const isbns = querySnapshot.docs.map(doc => doc.data());
       setIsbns(isbns);
     }
@@ -37,6 +37,7 @@ export default function App() {
         {isbns.map((i, index) => {
           if (index % 2 === 0) {
             var nextItem = isbns[index + 1]
+            console.log("data: "+JSON.stringify(i))
             return (
               <View key={index} className="m-1" style={{ flexDirection: "row", height: 250 }}>
                 {i.title ? <CustomBook title={i.title}/> : <Book isbn={i.isbn} />}
