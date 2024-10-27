@@ -8,7 +8,8 @@ const fetchBookDetails = async (code, isAlert=false) => {
         if (bookDetails) {
             return {
                 title: bookDetails.details.title,
-                image: bookDetails.thumbnail_url.replace("S", "L")
+                image: bookDetails.thumbnail_url.replace("S", "L"),
+                pages: bookDetails.details.number_of_pages
             };
         }
     } catch (error) {

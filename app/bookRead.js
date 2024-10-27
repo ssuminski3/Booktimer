@@ -14,7 +14,9 @@ export default function bookRead() {
     const [stage, setStage] = useState(0)
     const local = useLocalSearchParams()
     const isbn = local.isbn
+    const id = local.id
     const title = local.title
+    console.log("Id:",id)
     const oneMoreMoment = () => {
         setStage(1)
         setRemainingTime(5)
@@ -26,10 +28,10 @@ export default function bookRead() {
                 (stage == 0) && <TimePicker selectedIndex={time} setSelectedIndex={setTime} goRead={() => setStage(1)}/>
             }
             {
-                (stage == 1) && <Countdown time={time} endRead={() => setStage(2)} isbn={isbn} title={title} remainingTime={remainingTime}/>
+                (stage == 1) && <Countdown time={time} endRead={() => setStage(2)} isbn={isbn} title={title} remainingTime={remainingTime} id={id}/>
             }
             {
-                (stage === 2) && <Finish oneMoreMoment={oneMoreMoment} time={time} />
+                (stage === 2) && <Finish oneMoreMoment={oneMoreMoment} time={time} id={id} />
             }          
         </View>
     );

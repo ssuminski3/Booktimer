@@ -2,11 +2,11 @@ import React, { useRef, useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, TextInput } from 'react-native';
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer'
 import { collection, addDoc } from 'firebase/firestore';
-import { db } from '../firebase.config'
+import { db, firebaseAuth } from '../firebase.config'
 
 //props selectedIndex and setSelectedIndex - state with choosed value
 
-function AddThought() {
+function AddThought(props) {
     const [active, setActive] = useState(false)
     const [thought, setThought] = useState("")
     const [page, setPage] = useState(0)
@@ -26,7 +26,9 @@ function AddThought() {
                 setLoading(true)
                 const docRef = await addDoc(collection(db, "thoughts"), {
                     thought: thought,
-                    page: page
+                    page: page,
+                    bookID: props.id,
+                    userID: firebaseAuth.currentUser.uid
                 })
                 console.log("Added ")
             }
@@ -74,6 +76,7 @@ export default function Countdown(props) {
     const [isPlaying, setIsPlaying] = useState(true)
 
     const [isbn, useIsbn] = useState(props.isbn)
+    const [id, setId] = useState(props.id)
     const [title, setTitle] = useState(props.title)
     useEffect(() => {
         async function getData() {
@@ -121,7 +124,7 @@ export default function Countdown(props) {
                     </View>
                 )}
             </CountdownCircleTimer>
-            <AddThought />
+            <AddThought id={id}/>
             <View className="w-1/2 mt-1.5" style={{ flexDirection: 'row' }}>
                 <TouchableOpacity className="bg-orange-500 w-1/2 m-1 p-1" onPress={() => setIsPlaying(!isPlaying)}>
                     <Text className="text-white text-center">{isPlaying ? "Pause" : "Start"}</Text>

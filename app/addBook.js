@@ -43,8 +43,8 @@ export default function App() {
 
     const addBookToDB = async () => {
         const bookData = pages === 0
-            ? { isbn, userId: firebaseAuth.currentUser.uid }
-            : { title, pages, userId: firebaseAuth.currentUser.uid };
+            ? { isbn, userId: firebaseAuth.currentUser.uid, readedPages: 0 }
+            : { title, pages, userId: firebaseAuth.currentUser.uid, readedPages: 0 };
 
         try {
             const docRef = await addDoc(collection(db, "books"), bookData);

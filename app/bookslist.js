@@ -23,9 +23,9 @@ export function AddButton() {
 export default function App() {
   const [isbns, setIsbns] = useState([])
   useEffect(() => {
-    async function getBooks(){
+    async function getBooks() {
       const querySnapshot = await getDocs(query(collection(db, "books"), where("userId", "==", firebaseAuth.currentUser.uid)));
-      const isbns = querySnapshot.docs.map(doc => doc.data());
+      const isbns = querySnapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
       setIsbns(isbns);
     }
     getBooks();
@@ -37,11 +37,11 @@ export default function App() {
         {isbns.map((i, index) => {
           if (index % 2 === 0) {
             var nextItem = isbns[index + 1]
-            console.log("data: "+JSON.stringify(i))
+            console.log("data: " + JSON.stringify(i))
             return (
               <View key={index} className="m-1" style={{ flexDirection: "row", height: 250 }}>
-                {i.title ? <CustomBook title={i.title}/> : <Book isbn={i.isbn} />}
-                {nextItem && (nextItem.title ? <CustomBook title={nextItem.title}/> : <Book isbn={nextItem.isbn} />)}
+                {i.title ? <CustomBook title={i.title} id={i.id}/> : <Book isbn={i.isbn} id={i.id} readedPages={i.readedPages}/>}
+                {nextItem && (nextItem.title ? <CustomBook title={nextItem.title} id={nextItem.id}/> : <Book isbn={nextItem.isbn} id={nextItem.id} readedPages={nextItems.readedPages}/>)}
               </View>
             )
           }
