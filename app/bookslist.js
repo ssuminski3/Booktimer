@@ -2,10 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { Text, View, ScrollView, StyleSheet } from 'react-native';
 import Book from '../ui/book';
 import { Link } from 'expo-router';
-import CustomBook from '../ui/customBook';
 import { collection, getDocs, where, query } from 'firebase/firestore';
 import { db, firebaseAuth } from '../firebase.config';
-
+import { SimpleGrid } from 'react-native-super-grid';
 //Main color bg-orange-500, background bg-slate-200
 
 
@@ -31,22 +30,15 @@ export default function App() {
     getBooks();
   }, [])
   return (
-    <View className="bg-slate-200 h-full">
+    <View className="bg-slate-200 flex-1 justify-center items-center">
       <AddButton />
       <ScrollView>
-        {isbns.map((i, index) => {
-          if (index % 2 === 0) {
-            var nextItem = isbns[index + 1]
-            console.log("data: " + JSON.stringify(i))
-            return (
-              <View key={index} className="m-1" style={{ flexDirection: "row", height: 250 }}>
-                {i.title ? <CustomBook title={i.title} id={i.id}/> : <Book isbn={i.isbn} id={i.id} readedPages={i.readedPages}/>}
-                {nextItem && (nextItem.title ? <CustomBook title={nextItem.title} id={nextItem.id}/> : <Book isbn={nextItem.isbn} id={nextItem.id} readedPages={nextItems.readedPages}/>)}
-              </View>
-            )
-          }
-          return null
-        })}
+          <SimpleGrid 
+            itemDimension={100}
+            maxItemsPerRow={2}
+            data={isbns}
+            renderItem={({ item }) => <Book title={item.title} id={item.id} isbn={item.isbn} readedPages={item.readedPages} pages={item.pages}/>}
+          />
       </ScrollView>
     </View>
   );
