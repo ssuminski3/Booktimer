@@ -47,7 +47,6 @@ function AddThought(props) {
                     ref={refThought}
                     onChange={(e) => { setThought(e.nativeEvent.text) }}
                     multiline
-                    maxLength={60}
                     placeholder='Write your thought on book'
                     style={{ borderStyle: "solid", borderColor: active ? "#f97316" : "#e0e0e0", borderBottomWidth: active ? 3 : 1 }}
                     onFocus={() => setActive(true)}
