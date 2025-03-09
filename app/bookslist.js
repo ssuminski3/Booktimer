@@ -23,7 +23,8 @@ export default function App() {
   const [isbns, setIsbns] = useState([])
   useEffect(() => {
     async function getBooks() {
-      const querySnapshot = await getDocs(query(collection(db, "books"), where("userId", "==", firebaseAuth.currentUser.uid)));
+      const q = query(collection(db, "books"), where("userId", "==", firebaseAuth.currentUser.uid));
+      const querySnapshot = await getDocs(q);
       const isbns = querySnapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
       setIsbns(isbns);
     }

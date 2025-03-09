@@ -26,7 +26,7 @@ export default function App() {
         console.log(code)
         setIsbn(code);
         setLoading(true)
-        const bookDetails = await fetchBookDetails(code, true);
+        const bookDetails = await fetchBookDetails(code, "L", true);
         console.log(bookDetails)
         setTitle(bookDetails.title)
         setImage(bookDetails.image)

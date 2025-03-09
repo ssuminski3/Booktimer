@@ -1,6 +1,5 @@
 import React, {useState}from 'react';
-import WheelPicker from 'react-native-wheely';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View } from 'react-native';
 import TimePicker from '../ui/timePicker';
 import Countdown from '../ui/countdown';
 import { useLocalSearchParams } from 'expo-router';

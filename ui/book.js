@@ -26,7 +26,7 @@ export default function BookCard(props) {
     if (hasISBN) {
       const fetchDetails = async () => {
         try {
-          const bookDetails = await fetchBookDetails(isbn);
+          const bookDetails = await fetchBookDetails(isbn, "M");
           setImage(bookDetails.image);
           setTitle(bookDetails.title);
           setPages(bookDetails.pages);
@@ -41,9 +41,9 @@ export default function BookCard(props) {
   }, [isbn]);
   const redirect = () => {
     if (hasISBN) {
-      router.navigate({ pathname: "./bookRead", params: { isbn: isbn, id: id } });
+      router.navigate({ pathname: "./bookDetails", params: { isbn: isbn, documentID: id } });
     } else {
-      router.navigate({ pathname: "./bookRead", params: { title: title, id: id } });
+      router.navigate({ pathname: "./bookDetails", params: { title: title, documentID: id } });
     }
   };
 

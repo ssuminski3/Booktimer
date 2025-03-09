@@ -1,4 +1,4 @@
-const fetchBookDetails = async (code, isAlert=false) => {
+const fetchBookDetails = async (code, imageSize, isAlert=false) => {
     console.log("Isbg: ", code)
     try {
         const response = await fetch(`http://openlibrary.org/api/books?bibkeys=ISBN:${code}&jscmd=details&format=json`);
@@ -8,7 +8,7 @@ const fetchBookDetails = async (code, isAlert=false) => {
         if (bookDetails) {
             return {
                 title: bookDetails.details.title,
-                image: bookDetails.thumbnail_url.replace("S", "L"),
+                image: bookDetails.thumbnail_url.replace("S", imageSize),
                 pages: bookDetails.details.number_of_pages
             };
         }

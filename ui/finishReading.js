@@ -28,6 +28,7 @@ function FinishedPage(props) {
                 page: pageNumber,
                 time: props.time,
                 date: Date(),
+                bookId: props.id,
             });
             try{
                 //db.collection('books').doc(props.id).update({readedPages: pageNumber})
@@ -72,7 +73,7 @@ function FinishedPage(props) {
                 <TextInput
                     ref={refPage}
                     value={page}
-                    onChangeText={(text) => setPage(text)}  // Changed this line
+                    onChangeText={(text) => setPage(text)}
                     maxLength={4}
                     placeholder='Page that you finished on'
                     className="ml-1"
