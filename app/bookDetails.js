@@ -84,7 +84,7 @@ export default function BookDetails() {
         }
     };
     return (
-        <View className="flex-1 justify-center items-center bg-slate-200">
+        <View className={`flex-1 justify-center items-center ${global.colorMode.backgroundColors[global.colorMode.darkMode]}`}>
 
             <Image
                 source={
@@ -96,36 +96,36 @@ export default function BookDetails() {
                 className="w-full flex-1 m-1"
                 alt={title}
             />
-            <Text className="text-xl m-10">{title}</Text>
+            <Text className={`text-xl m-10 ${global.colorMode.textColors[global.colorMode.darkMode]}`}>{title}</Text>
             {pages ? (
                 <View className="block">
                     <Bar progress={readedPages / pages} color="#f97316" width={300} />
-                    <Text className="text-right m-1">{readedPages}/{pages}</Text>
+                    <Text className={`text-right m-1 ${global.colorMode.textColors[global.colorMode.darkMode]}`}>{readedPages}/{pages}</Text>
                 </View>
 
             ) : null}
-            <Text className="text-sm m-10">You read that book for {countTime} minutes</Text>
+            <Text className={`text-sm m-10 ${global.colorMode.textColors[global.colorMode.darkMode]}`}>You read that book for {countTime} minutes</Text>
             <ScrollView className="w-full flex-1">
                 <View className="flex-1 w-full m-3">
                     <View className="flex-row border-b border-gray-400 w-full pl-5 pr-5 justify-between">
-                        <Text className="text-left">Thought</Text>
-                        <Text className="text-right">Page</Text>
+                        <Text className={`text-left ${global.colorMode.textColors[global.colorMode.darkMode]}`}>Thought</Text>
+                        <Text className={`text-right ${global.colorMode.textColors[global.colorMode.darkMode]}`}>Page</Text>
                     </View>
                     {
                         thoughts.map((item, index) => {
                             return (
                                 <View key={index} className="flex-row w-full p-2 pl-5 pr-5 border-b border-gray-400 justify-between">
-                                    <Text className="text-left">{item.thought}</Text>
-                                    <Text className="text-right">{item.page}</Text>
+                                    <Text className={`text-left ${global.colorMode.textColors[global.colorMode.darkMode]}`}>{item.thought}</Text>
+                                    <Text className={`text-right ${global.colorMode.textColors[global.colorMode.darkMode]}`}>{item.page}</Text>
                                 </View>
                             )
                         })
                     }
                 </View>
             </ScrollView>
-            <View className="w-full p-1 bg-slate-100">
+            <View className={`w-full p-1 ${global.colorMode.secondaryColors[global.colorMode.darkMode]}`}>
                 <TouchableOpacity className="bg-orange-500 m-1 p-2 w-full rounded-xl" onPress={redirect}>
-                    <Text className="text-center text-white">Start Reading</Text>
+                    <Text className={`text-center text-white ${global.colorMode.textColors[global.colorMode.darkMode]}`}>Start Reading</Text>
                 </TouchableOpacity>
             </View>
         </View>

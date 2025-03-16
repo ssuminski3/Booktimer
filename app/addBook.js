@@ -98,10 +98,10 @@ export default function App() {
                 onBarcodeScanned={(e) => scannedAction(e.data)}>
                  <View style={{flexDirection: 'row'}} className="flex-1 justify-center items-end mb-10">
                         <TouchableOpacity className="bg-orange-500 m-1 p-2 w-1/3 rounded-xl" onPress={() => setEnterIsbn(true)}>
-                            <Text className="text-center text-white">Enter ISBN</Text>
+                            <Text className={`text-center text-white ${global.colorMode.textColors[global.colorMode.darkMode]}`}>Enter ISBN</Text>
                         </TouchableOpacity>
                         <TouchableOpacity className="bg-orange-500 m-1 p-2 w-2/5 rounded-xl" onPress={() => setEnterTitle(true)}>
-                            <Text className="text-center text-white">Enter book's details</Text>
+                            <Text className={`text-center text-white ${global.colorMode.textColors[global.colorMode.darkMode]}`}>Enter book's details</Text>
                         </TouchableOpacity>
                     </View>
             </CameraView>

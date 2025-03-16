@@ -5,11 +5,7 @@ import { collection, getDocs, where, query } from 'firebase/firestore';
 import { db, firebaseAuth } from '../firebase.config';
 import { SimpleGrid } from 'react-native-super-grid';
 import Fab from '../ui/fab';
-//Main color bg-orange-500, background bg-slate-200
-
-
-
-
+//Main color bg-orange-500, background ${global.colorMode.backgroundColors[global.colorMode.darkMode]}
 
 export default function App() {
   const [isbns, setIsbns] = useState([])
@@ -23,7 +19,7 @@ export default function App() {
     getBooks();
   }, [])
   return (
-    <View className="bg-slate-200 flex-1 justify-center items-center">
+    <View className={`${global.colorMode.backgroundColors[global.colorMode.darkMode]} flex-1 justify-center items-center`}>
       <ScrollView>
         <SimpleGrid
           itemDimension={100}

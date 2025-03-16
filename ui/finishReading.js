@@ -82,7 +82,7 @@ function FinishedPage(props) {
                     onFocus={() => setActive(true)}
                     onSubmitEditing={() => setActive(false)} />
                 <TouchableOpacity className="bg-orange-500 m-5 rounded-xl items-center justify-center" onPress={onPress}>
-                    <Text className="text-white text-center">Finish</Text>
+                    <Text className={`text-white text-center ${global.colorMode.textColors[global.colorMode.darkMode]}`}>Finish</Text>
                 </TouchableOpacity>
             </View>
 
@@ -92,10 +92,10 @@ function FinishedPage(props) {
 export default function Finish(props) {
 
     return (
-        <View className="bg-slate-200 h-full justify-center">
+        <View className={`${global.colorMode.backgroundColors[global.colorMode.darkMode]} h-full justify-center`}>
 
             <TouchableOpacity className="items-center" onPress={props.oneMoreMoment}>
-                <Text className="text-orange-500 text-center">Give me 5 minutes more</Text>
+                <Text className={`text-orange-500 text-center ${global.colorMode.textColors[global.colorMode.darkMode]}`}>Give me 5 minutes more</Text>
             </TouchableOpacity>
 
             <FinishedPage time={props.time} goHome={props.goHome} id={props.id} />

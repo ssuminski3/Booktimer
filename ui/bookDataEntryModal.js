@@ -9,8 +9,8 @@ const BookDataEntryModal = ({ visible, onClose, setTitle, setPages, addBookToDB 
             visible={visible}
             onRequestClose={onClose}
         >
-            <View className="bg-slate-100 w-4/5 h-1/3 p-2 m-auto shadow-2xl justify-center">
-                <Text className="text-2xl mb-3">Enter book's data</Text>
+            <View className={`${global.colorMode.secondaryColors[global.colorMode.darkMode]} w-4/5 h-1/3 p-2 m-auto shadow-2xl justify-center`}>
+                <Text className={`text-2xl mb-3 ${global.colorMode.textColors[global.colorMode.darkMode]}`}>Enter book's data</Text>
                 <TextInput
                     placeholder="Enter your book's title"
                     className="m-1"
@@ -29,7 +29,7 @@ const BookDataEntryModal = ({ visible, onClose, setTitle, setPages, addBookToDB 
                         addBookToDB();
                     }}
                 >
-                    <Text className="text-center text-white">Enter book</Text>
+                    <Text className={`text-center text-white ${global.colorMode.textColors[global.colorMode.darkMode]}`}>Enter book</Text>
                 </TouchableOpacity>
             </View>
         </Modal>

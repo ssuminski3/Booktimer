@@ -63,7 +63,7 @@ function AddThought(props) {
                     onFocus={() => setActive(true)}
                     onSubmitEditing={() => setActive(false)} />
                 <TouchableOpacity className="bg-orange-500 w-1/5 m-1 ml-5 p-1 rounded-xl items-center justify-center" onPress={onPress}>
-                    <Text className="text-white text-center">+</Text>
+                    <Text className={`text-white text-center ${global.colorMode.textColors[global.colorMode.darkMode]}`}>+</Text>
                 </TouchableOpacity>
             </View>
 
@@ -104,7 +104,7 @@ export default function Countdown(props) {
 
     console.log(title)
     return (
-        <View className="justify-center items-center h-full bg-slate-200">
+        <View className={`justify-center items-center h-full ${global.colorMode.backgroundColors[global.colorMode.darkMode]}`}>
             <CountdownCircleTimer
                 isPlaying={isPlaying}
                 duration={props.time * 60}
@@ -114,10 +114,10 @@ export default function Countdown(props) {
             >
                 {({ remainingTime }) => (
                     <View>
-                        <Text className="text-orange-500 text-2xl text-center">
+                        <Text className={`text-orange-500 text-2xl text-center ${global.colorMode.textColors[global.colorMode.darkMode]}`}>
                             {(Math.floor(remainingTime / 60) >= 10) ? Math.floor(remainingTime / 60) : "0" + Math.floor(remainingTime / 60)} : {(remainingTime % 60 >= 10) ? remainingTime % 60 : "0" + remainingTime % 60}
                         </Text>
-                        <Text className="text-sm text-center">
+                        <Text className={`text-sm text-center ${global.colorMode.textColors[global.colorMode.darkMode]}`}>
                             {title}
                         </Text>
                     </View>
@@ -126,10 +126,10 @@ export default function Countdown(props) {
             <AddThought id={id}/>
             <View className="w-1/2 mt-1.5" style={{ flexDirection: 'row' }}>
                 <TouchableOpacity className="bg-orange-500 w-1/2 m-1 p-1" onPress={() => setIsPlaying(!isPlaying)}>
-                    <Text className="text-white text-center">{isPlaying ? "Pause" : "Start"}</Text>
+                    <Text className={`text-white text-center ${global.colorMode.textColors[global.colorMode.darkMode]}`}>{isPlaying ? "Pause" : "Start"}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity className="bg-orange-500 w-1/2 m-1 p-1" onPress={props.endRead}>
-                    <Text className="text-white text-center">Stop</Text>
+                    <Text className={`text-white text-center ${global.colorMode.textColors[global.colorMode.darkMode]}`}>Stop</Text>
                 </TouchableOpacity>
             </View>
         </View>

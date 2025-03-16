@@ -30,7 +30,7 @@ export default function Login() {
             router.replace('./')
         }
     }
-
+    console.log(`flex-1 justify-center items-center ${global.colorMode.backgroundColors[global.colorMode.darkMode]}`)
     const signUp = async () => {
         setLoading(true)
         try {
@@ -48,18 +48,18 @@ export default function Login() {
         }
     }
     return (
-        <View className="flex-1 justify-center items-center bg-slate-200">
-            <TextInput className="bg-slate-100 w-2/3 border-blue-950 divide-solid m-2" placeholder='email' autoCapitalize='none' onChangeText={(e) => setEmail(e)}></TextInput>
-            <TextInput secureTextEntry={true} className="bg-slate-100 w-2/3 m-2" placeholder='password' autoCapitalize='false' onChangeText={(e) => setPassword(e)}></TextInput>
-            <Text className="text-red-500 m-2">{error}</Text>
+        <View className={`flex-1 justify-center items-center ${global.colorMode.backgroundColors[global.colorMode.darkMode]}`}>
+            <TextInput className={`${global.colorMode.secondaryColors[global.colorMode.darkMode]} w-2/3 border-blue-950 divide-solid m-2`} placeholder='email' autoCapitalize='none' onChangeText={(e) => setEmail(e)}></TextInput>
+            <TextInput secureTextEntry={true} className={`${global.colorMode.secondaryColors[global.colorMode.darkMode]} w-2/3 m-2`} placeholder='password' autoCapitalize='false' onChangeText={(e) => setPassword(e)}></TextInput>
+            <Text className={`text-red-500 m-2 ${global.colorMode.textColors[global.colorMode.darkMode]}`}>{error}</Text>
             {
                 loading ? <ActivityIndicator size={'large'} color={"#f97316"} />
                     : <>
                         <TouchableOpacity className="bg-orange-500 w-1/2 m-1 p-1" onPress={signIn}>
-                            <Text className="text-white text-center">Login</Text>
+                            <Text className={`text-white text-center ${global.colorMode.textColors[global.colorMode.darkMode]}`}>Login</Text>
                         </TouchableOpacity>
                         <TouchableOpacity className="bg-orange-500 w-1/2 m-1 p-1" onPress={signUp}>
-                            <Text className="text-white text-center">Craete account</Text>
+                            <Text className={`text-white text-center ${global.colorMode.textColors[global.colorMode.darkMode]}`}>Craete account</Text>
                         </TouchableOpacity>
                     </>
             }

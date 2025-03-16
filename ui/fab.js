@@ -17,6 +17,12 @@ export default function Fab() {
             name: "./notesList",
             icon: <Ionicons name="create" size={24} color="white" />,
         },
+        {
+            text: "Settings",
+            name: "./settings",
+            color: "#f97316",
+            icon: <Ionicons name="settings" size={24} color="white" />,
+        },
     ];
     return (
             <FloatingAction
