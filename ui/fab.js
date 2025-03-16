@@ -30,7 +30,7 @@ export default function Fab() {
                 color="#f97316"
                 floatingIcon={<Ionicons name="albums" size={24} color="white" />}
                 onPressItem={destination => {
-                    router.replace(destination);
+                    router.push(destination);
                 }}
             />
 

@@ -1,14 +1,29 @@
-import { View, Text, Switch, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, Switch, TouchableOpacity } from 'react-native';
 import { useState } from 'react';
-import {Appearance} from 'react-native';
+import { Appearance } from 'react-native';
+import { signOut } from 'firebase/auth';
+import { firebaseAuth } from '../firebase.config';
+import { router } from 'expo-router';
 
 export default function Settings() {
     const [isEnabled, setIsEnabled] = useState(global.colorMode.darkMode);
+    
     const toggleSwitch = () => {
         setIsEnabled(previousState => !previousState)
         global.colorMode.darkMode = !global.colorMode.darkMode
         Appearance.setColorScheme((global.colorMode.darkMode ? 'dark' : 'light'))
     };
+
+    const sOut = async () => {
+        try{
+            await signOut(firebaseAuth)
+            router.replace("./")
+        }
+        catch(e){
+            console.error("Błąd")
+        }
+    } 
+
     return (
         <View className={`w-full flex-1 ${global.colorMode.backgroundColors[global.colorMode.darkMode]}`}>
             <View className="flex-1 w-full m-3">
@@ -21,6 +36,9 @@ export default function Settings() {
 
                     />
                 </View>
+                <TouchableOpacity className="flex-row border-b border-gray-400 w-full pl-5 pr-5 justify-between" onPress={sOut}>
+                    <Text className={`m-3 text-lg text-red-600`}>Log out</Text>
+                </TouchableOpacity>
             </View>
         </View>
     )

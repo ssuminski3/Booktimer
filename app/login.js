@@ -30,7 +30,6 @@ export default function Login() {
             router.replace('./')
         }
     }
-    console.log(`flex-1 justify-center items-center ${global.colorMode.backgroundColors[global.colorMode.darkMode]}`)
     const signUp = async () => {
         setLoading(true)
         try {

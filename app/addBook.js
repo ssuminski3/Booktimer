@@ -53,7 +53,7 @@ export default function App() {
             console.error(error);
         } finally {
             setScanned(false);
-            router.replace("bookslist");
+            router.navigate("bookslist");
         }
     };
 
